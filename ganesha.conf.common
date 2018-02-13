@@ -1,0 +1,37 @@
+NFS_CORE_PARAM
+{
+	Enable_NLM = false;
+	Enable_RQUOTA = false;
+	Protocols = 4;
+}
+
+NFSv4
+{
+	Delegations = true;
+	RecoveryBackend = rados_cluster;
+}
+
+CACHEINODE {
+	Dir_Max = 1;
+	Dir_Chunk = 0;
+	Cache_FDs = false;
+	NParts = 1;
+	Cache_Size = 1;
+}
+
+EXPORT
+{
+	Export_ID=100;
+	Path = /;
+	Pseudo = /cephfs;
+	Access_Type = RW;
+	Squash = No_root_squash;
+	SecType = sys;
+	Protocols = 4;
+	Transports = TCP;
+	Delegations = R;
+	Attr_Expiration_Time = 0;
+	FSAL {
+		Name = CEPH;
+	}
+}
