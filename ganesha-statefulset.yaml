@@ -21,7 +21,3 @@ spec:
         ports:
         - containerPort: 2049
           name: ganesha
-      initContainers:
-      - name: ganesha-start-grace
-        image: jlayton/experimental:nfs-ganesha
-        command: [ '/sbin/rados_grace_tool', '0', '1', '2' ]
