@@ -4,11 +4,19 @@ FROM fedora:latest
 # get the copr plugin
 RUN dnf install -y dnf-plugins-core
 
-# install my copr repos
+# This is all very experimental work for now, but eventually it (or
+# something like it should be able to make its way to mainline. For now, this
+# is being built from copr repos:
+#
+# https://copr.fedorainfracloud.org/coprs/jlayton/
+
+# install jlayton's copr repos
 RUN dnf copr enable -y jlayton/ceph
 RUN dnf copr enable -y jlayton/nfs-ganesha
 
-# workaround: install was failing until I installed perl-Carp separately
+# I tried just calling dnf install -y nfs-ganesha-ceph, but it was failing
+# with some db5 error inside RPM. This is a workaround for now. Eventually
+# we should be able to remove this dnf call once the rpm bug is fixed.
 RUN dnf install -y perl-Carp
 
 # now install nfs-ganesha and Ceph FSAL
@@ -22,6 +30,7 @@ COPY ceph.conf /etc/ceph/
 WORKDIR /etc/ganesha/
 COPY ganesha.conf /etc/ganesha/
 
+# make a ceph dir, primarily for collecting ceph logfiles
 WORKDIR /ceph
 RUN chown ganesha:ganesha /ceph
 
