@@ -17,6 +17,9 @@ fi
 
 sed -i "s/%mon_addr%/${CEPH_MON_ADDR}/" /etc/ceph/ceph.conf
 
+# Now, start (or join) the grace period
+rados_grace_tool ${ordinal}
+
 exec setpriv				\
 	--reuid ganesha 		\
 	--regid ganesha			\
