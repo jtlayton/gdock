@@ -20,7 +20,7 @@ RUN dnf copr enable -y jlayton/nfs-ganesha
 RUN dnf install -y perl-Carp
 
 # now install nfs-ganesha and Ceph FSAL
-RUN dnf install -y nfs-ganesha-ceph
+RUN dnf install -y policycoreutils nfs-ganesha-ceph
 
 # set up ceph.conf
 WORKDIR /etc/ceph/
