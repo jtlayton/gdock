@@ -18,9 +18,15 @@ RUN dnf copr enable -y jlayton/nfs-ganesha
 # with some db5 error inside RPM. This is a workaround for now. Eventually
 # we should be able to remove this dnf call once the rpm bug is fixed.
 RUN dnf install -y perl-Carp
+RUN dnf install -y policycoreutils
 
 # now install nfs-ganesha and Ceph FSAL
-RUN dnf install -y policycoreutils nfs-ganesha-ceph
+# RUN mkdir -p /repo
+# COPY repo/*.rpm /repo/
+# RUN touch /var/lib/rpm/*
+# RUN dnf install -y /repo/*.rpm
+RUN dnf install -y nfs-ganesha-ceph
+# RUN rm /repo/*.rpm
 
 # set up ceph.conf
 WORKDIR /etc/ceph/

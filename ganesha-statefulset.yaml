@@ -17,7 +17,11 @@ spec:
       terminationGracePeriodSeconds: 10
       containers:
       - name: ganesha
-        image: jlayton/experimental:nfs-ganesha
+        imagePullPolicy: Always
+        image: jlayton/nfs-ganesha:simple
+        env:
+        - name: CEPH_MON_ADDR
+          value: XXX.XXX.XXX.XXX:YYYYY
         ports:
         - containerPort: 2049
           name: ganesha
