@@ -1,8 +1,10 @@
 # start with minimal fedora base
 FROM fedora:latest
 
+RUN touch /var/lib/rpm/*
+
 # get the copr plugin
-RUN dnf install -y dnf-plugins-core
+RUN dnf install -y dnf-plugins-core --refresh
 
 # This is all very experimental work for now, but eventually it (or
 # something like it should be able to make its way to mainline. For now, this
@@ -17,16 +19,10 @@ RUN dnf copr enable -y jlayton/nfs-ganesha
 # I tried just calling dnf install -y nfs-ganesha-ceph, but it was failing
 # with some db5 error inside RPM. This is a workaround for now. Eventually
 # we should be able to remove this dnf call once the rpm bug is fixed.
-RUN dnf install -y perl-Carp
-RUN dnf install -y policycoreutils
+RUN dnf install -y kmod perl-Carp policycoreutils
 
 # now install nfs-ganesha and Ceph FSAL
-# RUN mkdir -p /repo
-# COPY repo/*.rpm /repo/
-# RUN touch /var/lib/rpm/*
-# RUN dnf install -y /repo/*.rpm
 RUN dnf install -y nfs-ganesha-ceph
-# RUN rm /repo/*.rpm
 
 # set up ceph.conf
 WORKDIR /etc/ceph/
@@ -43,6 +39,7 @@ RUN chown ganesha:ganesha /ceph
 # copy run script
 WORKDIR /
 COPY run-ganesha.sh /
+COPY request-grace.sh /
 
 # export NFS port
 EXPOSE 2049

@@ -21,7 +21,11 @@ spec:
         image: jlayton/nfs-ganesha:simple
         env:
         - name: CEPH_MON_ADDR
-          value: XXX.XXX.XXX.XXX:YYYYY
+          value: 192.168.1.3:40856
         ports:
         - containerPort: 2049
           name: ganesha
+        lifecycle:
+          preStop:
+           exec:
+            command: [ "/request-grace.sh" ]
