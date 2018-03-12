@@ -24,6 +24,9 @@ RUN dnf install -y kmod perl-Carp policycoreutils
 # now install nfs-ganesha and Ceph FSAL
 RUN dnf install -y nfs-ganesha-ceph
 
+# delete package cache
+RUN dnf clean all
+
 # set up ceph.conf
 WORKDIR /etc/ceph/
 COPY ceph.conf /etc/ceph/

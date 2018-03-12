@@ -21,7 +21,7 @@ spec:
         image: jlayton/nfs-ganesha:simple
         env:
         - name: CEPH_MON_ADDR
-          value: 192.168.1.3:40856
+          value: 192.168.1.3:40542
         ports:
         - containerPort: 2049
           name: ganesha
