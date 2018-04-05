@@ -18,7 +18,7 @@ RUN dnf copr enable -y jlayton/nfs-ganesha
 
 # I tried just calling dnf install -y nfs-ganesha-ceph, but it was failing
 # with some db5 error inside RPM. This is a workaround for now. Eventually
-# we should be able to remove this dnf call once the rpm bug is fixed.
+# we should be able to remove this dnf call (one would hope).
 RUN dnf install -y kmod perl-Carp policycoreutils
 
 # now install nfs-ganesha and Ceph FSAL
@@ -42,7 +42,6 @@ RUN chown ganesha:ganesha /ceph
 # copy run script
 WORKDIR /
 COPY run-ganesha.sh /
-COPY request-grace.sh /
 
 # export NFS port
 EXPOSE 2049
